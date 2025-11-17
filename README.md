@@ -30,12 +30,10 @@ This is a Full-stack Web Application for managing project tasks. Admins can crea
 
 
 ## Setup Instructions
-1. Clone the repo:
+1. Clone the repo:  
    git clone https://github.com/uk127/Task_Maker_Full_Stack.git
 
-2. cd task-manager-webapp
-
-3. Setup Backend  
+2. Setup Backend  
 cd backend  
 
 npm install  
