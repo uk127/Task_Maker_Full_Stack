@@ -1,0 +1,276 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { tasksAPI, usersAPI } from '../../utils/api';
+import './CreateTask.css';
+
+const CreateTask = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    priority: 'Medium',
+    dueDate: '',
+    assignedTo: [],
+    todoChecklist: [{ text: '', completed: false }],
+    attachments: '',
+  });
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const formatDateForInput = (isoDate) => {
+    const date = new Date(isoDate);
+    if (Number.isNaN(date.getTime())) {
+      return '';
+    }
+    const pad = (n) => (n < 10 ? '0' + n : n);
+
+    const year = date.getFullYear();
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+    const hours = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
+  const getDueDateInputValue = (value) => {
+    if (!value) return '';
+    const isLocalFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(value);
+    if (isLocalFormat) {
+      return value;
+    }
+    return formatDateForInput(value);
+  };
+  const fetchUsers = async () => {
+    try {
+      const data = await usersAPI.getUsers();
+      setUsers(data);
+    } catch (err) {
+      console.error('Failed to fetch users:', err);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleAssignedToChange = (userId) => {
+    const assignedTo = formData.assignedTo.includes(userId)
+      ? formData.assignedTo.filter((id) => id !== userId)
+      : [...formData.assignedTo, userId];
+    setFormData({ ...formData, assignedTo });
+  };
+
+  const handleChecklistChange = (index, value) => {
+    const todoChecklist = [...formData.todoChecklist];
+    todoChecklist[index].text = value;
+    setFormData({ ...formData, todoChecklist });
+  };
+
+  const addChecklistItem = () => {
+    setFormData({
+      ...formData,
+      todoChecklist: [...formData.todoChecklist, { text: '', completed: false }],
+    });
+  };
+
+  const removeChecklistItem = (index) => {
+    const todoChecklist = formData.todoChecklist.filter((_, i) => i !== index);
+    setFormData({ ...formData, todoChecklist });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (!formData.title || !formData.description || !formData.dueDate) {
+      setError('Please fill in all required fields');
+      return;
+    }
+
+    if (formData.assignedTo.length === 0) {
+      setError('Please assign the task to at least one user');
+      return;
+    }
+
+    // Validate due date
+    const parsedDueDate = new Date(formData.dueDate);
+    if (Number.isNaN(parsedDueDate.getTime())) {
+      setError('Please select a valid due date and time');
+      return;
+    }
+
+    // Filter out empty checklist items
+    const todoChecklist = formData.todoChecklist.filter((item) => item.text.trim() !== '');
+
+    setLoading(true);
+    try {
+      await tasksAPI.createTask({
+        ...formData,
+        dueDate: parsedDueDate.toISOString(),
+        todoChecklist,
+        assignedTo: formData.assignedTo,
+      });
+      navigate('/admin/tasks');
+    } catch (err) {
+      setError(err.message || 'Failed to create task');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="create-task">
+      <div className="create-task-header">
+        <h1>Create New Task</h1>
+        <button onClick={() => navigate('/admin/tasks')} className="back-btn">
+          ← Back to Tasks
+        </button>
+      </div>
+
+      {error && <div className="error-message">{error}</div>}
+
+      <form onSubmit={handleSubmit} className="task-form">
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="title">Title *</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+              placeholder="Enter task title"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="priority">Priority *</label>
+            <select
+              id="priority"
+              name="priority"
+              value={formData.priority}
+              onChange={handleChange}
+              required
+            >
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="description">Description *</label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            required
+            rows="4"
+            placeholder="Enter task description"
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="dueDate">Due Date *</label>
+          <input
+            type="datetime-local"
+            id="dueDate"
+            name="dueDate"
+            value={getDueDateInputValue(formData.dueDate)}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Assign To *</label>
+          <div className="users-checkbox-list">
+            {users.length === 0 ? (
+              <p>No users available</p>
+            ) : (
+              users.map((user) => (
+                <label key={user._id} className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={formData.assignedTo.includes(user._id)}
+                    onChange={() => handleAssignedToChange(user._id)}
+                  />
+                  <span>{user.name} ({user.email})</span>
+                </label>
+              ))
+            )}
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label>Todo Checklist</label>
+          {formData.todoChecklist.map((item, index) => (
+            <div key={index} className="checklist-item">
+              <input
+                type="text"
+                value={item.text}
+                onChange={(e) => handleChecklistChange(index, e.target.value)}
+                placeholder="Enter checklist item"
+              />
+              {formData.todoChecklist.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => removeChecklistItem(index)}
+                  className="remove-btn"
+                >
+                  Remove
+                </button>
+              )}
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={addChecklistItem}
+            className="add-checklist-btn"
+          >
+            + Add Checklist Item
+          </button>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="attachments">Attachments (URL)</label>
+          <input
+            type="text"
+            id="attachments"
+            name="attachments"
+            value={formData.attachments}
+            onChange={handleChange}
+            placeholder="Enter attachment URL"
+          />
+        </div>
+
+        <div className="form-actions">
+          <button type="submit" className="submit-btn" disabled={loading}>
+            {loading ? 'Creating...' : 'Create Task'}
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate('/admin/tasks')}
+            className="cancel-btn"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default CreateTask;

@@ -1,0 +1,299 @@
+.task-details {
+  padding: 2rem 0;
+}
+
+.task-details-header {
+  margin-bottom: 2rem;
+}
+
+.back-button {
+  padding: 0.75rem 1.5rem;
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s;
+  color: #333;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.back-button:hover {
+  background: #e0e0e0;
+}
+
+.task-details-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.task-main {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.task-title-section {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.task-title-section h1 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 2rem;
+}
+
+.task-badges {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.status-badge,
+.priority-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.status-badge.status-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.status-in-progress {
+  background: #cfe2ff;
+  color: #084298;
+}
+
+.status-badge.status-completed {
+  background: #d1e7dd;
+  color: #0f5132;
+}
+
+.priority-badge.priority-low {
+  background: #d1e7dd;
+  color: #0f5132;
+}
+
+.priority-badge.priority-medium {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.priority-badge.priority-high {
+  background: #f8d7da;
+  color: #842029;
+}
+
+.task-description-section {
+  margin-bottom: 2rem;
+}
+
+.task-description-section h2 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1.25rem;
+}
+
+.task-description-section p {
+  color: #666;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.task-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-item strong {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.info-item span {
+  color: #333;
+  font-weight: 500;
+}
+
+.task-attachments {
+  margin-bottom: 2rem;
+}
+
+.task-attachments h2 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1.25rem;
+}
+
+.attachment-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.3s;
+}
+
+.attachment-link:hover {
+  opacity: 0.8;
+}
+
+.task-status-control {
+  margin-bottom: 2rem;
+}
+
+.task-status-control h2 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1.25rem;
+}
+
+.status-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.status-btn {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #e0e0e0;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.status-btn:hover:not(:disabled) {
+  border-color: #667eea;
+}
+
+.status-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: transparent;
+}
+
+.status-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.task-checklist-section {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+}
+
+.task-checklist-section h2 {
+  margin: 0 0 1.5rem 0;
+  color: #333;
+  font-size: 1.25rem;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 12px;
+  background: #f0f0f0;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 6px;
+  transition: width 0.3s;
+}
+
+.progress-text {
+  margin: 0 0 1rem 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.75rem;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.checklist-item:hover {
+  background: #f9f9f9;
+}
+
+.checklist-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.checklist-item span {
+  flex: 1;
+  color: #333;
+  transition: all 0.3s;
+}
+
+.checklist-item span.completed {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.no-checklist {
+  color: #666;
+  font-style: italic;
+}
+
+.error-container {
+  text-align: center;
+  padding: 2rem;
+}
+
+.error {
+  color: #f44336;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 968px) {
+  .task-details-content {
+    grid-template-columns: 1fr;
+  }
+}
+
