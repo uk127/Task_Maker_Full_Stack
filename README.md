@@ -8,6 +8,7 @@ This is a Full-stack Web Application for managing project tasks. Admins can crea
 - **Database:** MongoDB
 - **Authentication:** JWT (Bonus feature implemented)
 - **Deployment:** https://task-maker-full-stack-frontend.onrender.com
+- **Admin Invite Token** 4588944
 
 ## Features
 - User Authentication (Login / Signup)
