@@ -19,7 +19,6 @@ function AppRoutes() {
 
   return (
     <Routes>
-      {/* Default redirect */}
       <Route
         path="/"
         element={
