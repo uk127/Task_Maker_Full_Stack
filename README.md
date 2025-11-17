@@ -35,24 +35,24 @@ This is a Full-stack Web Application for managing project tasks. Admins can crea
 
 2. cd task-manager-webapp
 
-3. Setup Backend
-cd backend
+3. Setup Backend  
+cd backend  
 
 npm install  
 
 npm run dev  
 
-This starts the backend server (usually on http://localhost:5000).
-Make sure all API routes are working (test with Postman or the frontend).
+This starts the backend server (usually on http://localhost:5000).  
+Make sure all API routes are working (test with Postman or the frontend).  
 
-3. Setup Frontend
-Open a new terminal window:
+3. Setup Frontend  
+Open a new terminal window:  
 
-cd frontend/TaskManager
+cd frontend/TaskManager  
 
-npm install
+npm install  
 
-npm start
+npm start  
 
-Frontend will run on http://localhost:3000.
+Frontend will run on http://localhost:3000.  
 
