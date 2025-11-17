@@ -5,12 +5,12 @@ import path from 'path'
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: 'dist', // important: tells Vite to build into 'dist'
+    outDir: 'dist',
   },
-  base: './', // ensures paths work correctly in production
+  base: './', // important for relative paths in static deployment
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'), // optional: for cleaner imports
+      '@': path.resolve(__dirname, './src'),
     },
   },
 })
