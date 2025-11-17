@@ -38,9 +38,9 @@ This is a Full-stack Web Application for managing project tasks. Admins can crea
 3. Setup Backend
 cd backend
 
-npm install
+npm install  
 
-npm run dev
+npm run dev  
 
 This starts the backend server (usually on http://localhost:5000).
 Make sure all API routes are working (test with Postman or the frontend).
